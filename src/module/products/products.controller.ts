@@ -6,37 +6,40 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  HttpCode,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/create-product.dto';
-import { UpdateProductDto } from './dto/update-product.dto';
+import { CreateProductDTO } from './dto/create.product.dto';
+import { UpdateProductDTO } from './dto/update.product.dto';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  @Post('')
+  create(@Body() createProductDTO: CreateProductDTO) {
+    return this.productsService.create(createProductDTO);
   }
 
-  @Get()
-  findAll() {
-    return this.productsService.findAll();
+  @Get('')
+  findAll(@Query('group') group: string | undefined) {
+    return this.productsService.findAll(group);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+    return this.productsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
+  update(@Param('id') id: string, @Body() updateProducTO: UpdateProductDTO) {
+    return this.productsService.update(id, updateProducTO);
   }
 
+  @HttpCode(204)
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+    return this.productsService.remove(id);
   }
 }
