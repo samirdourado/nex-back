@@ -13,18 +13,22 @@ export class UsersService {
   }
 
   async findAll() {
-    return `This action returns all users`;
+    const users = await this.usersRepository.findAll();
+    return users;
   }
 
-  async findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string) {
+    const user = await this.usersRepository.findOne(id);
+    return user;
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const user = await this.usersRepository.update(id, updateUserDto);
+    return user;
   }
 
-  async remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string) {
+    await this.usersRepository.delete(id);
+    return;
   }
 }
