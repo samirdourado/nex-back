@@ -13,6 +13,7 @@ export class ProductsInMemoryRepository implements ProductsRepository {
     const newProduct = new Product();
     Object.assign(newProduct, {
       ...data,
+      image: data.image || null,
     });
 
     this.database.push(newProduct);

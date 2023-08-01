@@ -1,6 +1,12 @@
 import { hashSync } from 'bcryptjs';
 import { Transform } from 'class-transformer';
-import { IsString, IsNotEmpty, IsEmail, MinLength } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsEmail,
+  MinLength,
+  IsOptional,
+} from 'class-validator';
 
 // data transfer object
 export class CreateUserDto {
@@ -23,5 +29,6 @@ export class CreateUserDto {
   password: string;
 
   @IsString({ message: 'Avatar needs image link.' })
+  @IsOptional()
   avatar: string;
 }
