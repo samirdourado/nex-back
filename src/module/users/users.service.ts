@@ -1,39 +1,24 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/sequelize';
-import { UserModel } from './users.model';
-// import { UpdateUserDto } from './dto/update.user.dto';
+import { Injectable, Inject } from '@nestjs/common';
+import { User } from './entities/user.entity';
+import { UserDTO } from './dto/user.dto';
+import { USER_REPOSITORY } from '../../core/constants';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(UserModel)
-    private userModel: typeof UserModel,
+    @Inject(USER_REPOSITORY) private readonly userRepository: typeof User,
   ) {}
 
-  async findAll(): Promise<UserModel[]> {
-    return this.userModel.findAll();
+  async create(newUserData: UserDTO): Promise<User> {
+    return await this.userRepository.create<User>(newUserData);
   }
 
-  findOne(id: string): Promise<UserModel> {
-    return this.userModel.findOne({
-      where: {
-        id,
-      },
-    });
+  async findOneByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOne<User>({ where: { email } });
   }
 
-  // async update(id: string, updateUserDto: UpdateUserDto) {
-  //   let user = await this.usersRepository.findOne(id);
-  //   if (!user) {
-  //     throw new NotFoundException('User not found.');
-  //   }
-  //   user = await this.usersRepository.update(id, updateUserDto);
-  //   return user;
-  // }
-
-  async remove(id: string): Promise<void> {
-    const user = await this.findOne(id);
-    await user.destroy();
+  async findOne(id: number): Promise<User> {
+    return await this.userRepository.findOne<User>({ where: { id } });
   }
 }
 
