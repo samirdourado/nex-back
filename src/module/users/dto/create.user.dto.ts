@@ -8,7 +8,6 @@ import {
   IsOptional,
 } from 'class-validator';
 
-// data transfer object
 export class CreateUserDto {
   @IsString({ message: 'Name must be a string.' })
   @IsNotEmpty()

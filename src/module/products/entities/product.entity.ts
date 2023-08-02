@@ -3,15 +3,22 @@ import {
   Column,
   Model,
   Table,
-  BeforeCreate,
   DataType,
   ForeignKey,
   BelongsTo,
+  PrimaryKey,
 } from 'sequelize-typescript';
 import { User } from 'src/module/users/entities/user.entity';
 
 @Table
 export class Product extends Model {
+  @PrimaryKey
+  @Column({
+    type: DataType.UUID,
+    defaultValue: randomUUID(),
+  })
+  id: string;
+
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -31,7 +38,7 @@ export class Product extends Model {
   image: string | null;
 
   @Column({
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     allowNull: false,
   })
   unit: number;
@@ -43,30 +50,12 @@ export class Product extends Model {
   price: number;
 
   @ForeignKey(() => User)
-  @Column
+  @Column({
+    type: DataType.UUID,
+    allowNull: false,
+  })
   user_id: string;
 
   @BelongsTo(() => User)
   user: User;
-
-  @BeforeCreate
-  static assignUUID(instance: Product) {
-    instance.id = randomUUID();
-  }
 }
-
-// import { randomUUID } from 'node:crypto';
-
-// export class Product {
-//   readonly id: string;
-//   item: string;
-//   category: string;
-//   image: string | null;
-//   unit: number;
-//   price: number;
-//   user_id?: string;
-
-//   constructor() {
-//     this.id = randomUUID();
-//   }
-// }

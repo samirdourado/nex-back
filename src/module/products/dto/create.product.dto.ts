@@ -4,7 +4,6 @@ import {
   IsInt,
   MinLength,
   IsOptional,
-  // IsDecimal,
 } from 'class-validator';
 
 export class CreateProductDTO {
@@ -25,7 +24,6 @@ export class CreateProductDTO {
   @IsNotEmpty()
   unit: number;
 
-  // @IsDecimal({ decimal_digits: '2' })
   @IsInt({ message: 'Item must be a number.' })
   @IsNotEmpty()
   price: number;

@@ -4,14 +4,21 @@ import {
   Column,
   Model,
   Table,
-  BeforeCreate,
   HasMany,
   DataType,
+  PrimaryKey,
 } from 'sequelize-typescript';
 import { Product } from 'src/module/products/entities/product.entity';
 
 @Table
 export class User extends Model<User> {
+  @PrimaryKey
+  @Column({
+    type: DataType.UUID,
+    defaultValue: randomUUID(),
+  })
+  id: string;
+
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -40,29 +47,4 @@ export class User extends Model<User> {
 
   @HasMany(() => Product)
   products: Product[];
-
-  @BeforeCreate
-  static assignUUID(instance: User) {
-    instance.id = randomUUID();
-  }
 }
-
-// import { Exclude } from 'class-transformer';
-// import { randomUUID } from 'node:crypto';
-
-// export class User {
-//   readonly id: string;
-
-//   name: string;
-
-//   email: string;
-
-//   @Exclude()
-//   password: string;
-
-//   avatar: string | null;
-
-//   constructor() {
-//     this.id = randomUUID();
-//   }
-// }
